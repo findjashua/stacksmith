@@ -4,7 +4,7 @@ from .core import API, SubprocessHelpers
 def print_usage():
     print("Usage: ss <command> [<args>]")
     print("\nCustom commands:")
-    print("  anchor <branch_name>                  Anchor the stack onto a new branch")
+    print("  hoist <branch_name>                  Hoist the stack onto a new branch")
     print("  create <branch_name>                  Push a new branch onto the stack")
     print("  pr [title]                            Create a pull request with automatic parent branch detection")
     print("  propagate                             Propagate commits from the current branch to all descendant branches")
@@ -19,11 +19,11 @@ def main():
     command = sys.argv[1]
     args = sys.argv[2:]
 
-    if command == "anchor":
+    if command == "hoist":
         if len(args) < 1:
-            print("Error: Base branch is required for 'anchor' command.")
+            print("Error: Base branch is required for 'hoist' command.")
             sys.exit(1)
-        API.anchor_stack(args[0])
+        API.hoist_stack(args[0])
     elif command == "create":
         if len(args) < 1:
             print("Error: Branch name is required for 'create' command.")

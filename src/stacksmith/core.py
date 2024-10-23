@@ -142,7 +142,7 @@ class InternalHelpers:
         children_dict = InternalHelpers.get_children_dict()
         current_branch = GitHelpers.get_current_branch()
         
-        if root_branch:  # anchor
+        if root_branch:  # hoist
             children_dict[root_branch] = [current_branch]
         else:  # propagate
             root_branch = current_branch
@@ -155,7 +155,7 @@ class InternalHelpers:
                     return
                 GitHelpers.rebase_onto(branch, creation_commit, child_branch)
                 print(f"Rebased {child_branch} onto {branch}")
-                if child_branch == current_branch:  # rebase anchored base to new branch
+                if child_branch == current_branch:  # rebase hoisted base to new branch
                     print(f"Updating parent of {current_branch} to {root_branch}")
                     GitHelpers.update_commit_parent(InternalHelpers.get_creation_commit(current_branch), root_branch)
 
@@ -208,9 +208,9 @@ class API:
         print(f"Successfully created draft PR: {output}")
 
     @staticmethod
-    def anchor_stack(base_branch: str) -> None:
+    def hoist_stack(base_branch: str) -> None:
         InternalHelpers.recursive_rebase(base_branch)
-        print(f"Anchored stack onto {base_branch} successfully")
+        print(f"Hoisted stack onto {base_branch} successfully")
 
     @staticmethod
     def propagate_changes() -> None:

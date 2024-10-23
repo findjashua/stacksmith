@@ -38,16 +38,16 @@ StackSmith uses `ss` as its base command:
    ```
    After addressing PR comments, propagate changes from current branch up the stack, maintaining consistency.
 
-5. **Anchor a stack onto another branch**
+5. **Hoist a stack on top of another branch**
    ```
-   ss anchor <base_branch>
+   ss hoist <base_branch>
    ```
-   After merging the base branch of the stack, anchor the remaining stack onto the trunk, side-stepping conflicts caused by squash-and-merge
+   After merging the base branch of the stack, hoist the remaining stack onto the trunk, side-stepping conflicts caused by squash-and-merge
    
-   Please note that after merging, you have to checkout the new base of the stack (child of the merged branch) and fetch origin before anchoring, like so:
+   Please note that after merging, you have to checkout the new base of the stack (child of the merged branch) and fetch origin before hoisting, like so:
    ```
    ss checkout <new_base> 
-   ss fetch origin && ss anchor origin/<trunk_name>
+   ss fetch origin && ss hoist origin/<trunk_name>
    ```
 
 ## Git command passthrough
@@ -84,7 +84,7 @@ This allows you to use StackSmith seamlessly alongside your regular Git workflow
 
 ### Side-stepping squash-and-merge conflicts
 
-When using a squash-and-merge strategy for pull requests, conflicts typically arise in stacked branches. StackSmith's `anchor` command cleverly side-steps these conflicts, allowing your stacked branches to update smoothly without manual conflict resolution.
+When using a squash-and-merge strategy for pull requests, conflicts typically arise in stacked branches. StackSmith's `hoist` command cleverly side-steps these conflicts, allowing your stacked branches to update smoothly without manual conflict resolution.
 
 ### Intelligent pull requests
 
