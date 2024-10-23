@@ -64,10 +64,6 @@ class GitHelpers:
         return set(SubprocessHelpers.run_command('git branch --format="%(refname:short)"').split('\n'))
 
     @staticmethod
-    def get_merged_branches(trunk: str) -> Set[str]:
-        return set(SubprocessHelpers.run_command(f'git branch --remotes --merged origin/{trunk} --format="%(refname:short)"').split('\n'))
-
-    @staticmethod
     def get_pr_output(branch: str) -> str:
         return SubprocessHelpers.run_command(f'gh pr view {branch} --json url')
 
