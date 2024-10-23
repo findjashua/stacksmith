@@ -155,7 +155,7 @@ class InternalHelpers:
                     return
                 GitHelpers.rebase_onto(branch, creation_commit, child_branch)
                 print(f"Rebased {child_branch} onto {branch}")
-                if child_branch == current_branch:  # rebase hoisted base to new branch
+                if child_branch == current_branch and root_branch != InternalHelpers.get_parent_branch(child_branch):
                     print(f"Updating parent of {current_branch} to {root_branch}")
                     GitHelpers.update_commit_parent(InternalHelpers.get_creation_commit(current_branch), root_branch)
 
