@@ -35,8 +35,9 @@ class GitHelpers:
         return SubprocessHelpers.run_command(f'git commit --allow-empty -m "{message}"')
 
     @staticmethod
-    def create_pull_request(base_branch: str, title: str, description: str) -> str:
-        return SubprocessHelpers.run_command(f'gh pr create --base "{base_branch}" --title "{title}" --body "{description}" --draft')
+    def create_pull_request(title: str, description: str, base_branch: Optional[str] = None) -> str:
+        base_branch_arg = f'--base "{base_branch}"' if base_branch is not None else ''
+        return SubprocessHelpers.run_command(f'gh pr create {base_branch_arg} --title "{title}" --body "{description}" --draft')
 
     @staticmethod
     def does_remote_branch_exist(branch: str) -> bool:
@@ -206,7 +207,8 @@ class API:
             parent_pr_url = json.loads(parent_pr_output)['url']
 
         description = f"Depends on: {parent_pr_url}" if parent_pr_url else ""
-        output = GitHelpers.create_pull_request(base_branch, title, description)
+        base_branch = base_branch if GitHelpers.does_remote_branch_exist(base_branch) else None
+        output = GitHelpers.create_pull_request(title, description, base_branch)
         print(f"Successfully created draft PR: {output}")
 
     @staticmethod
