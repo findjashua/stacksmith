@@ -194,7 +194,7 @@ class API:
         parent_branch = InternalHelpers.get_parent_branch(current_branch)
 
         base_branch = trunk_name
-        if parent_branch and parent_branch != f"origin/{trunk_name}" and GitHelpers.does_remote_branch_exist(parent_branch):
+        if parent_branch and parent_branch != f"origin/{trunk_name}":
             base_branch = parent_branch
 
         if title is None:
