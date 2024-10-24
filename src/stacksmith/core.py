@@ -136,6 +136,15 @@ class InternalHelpers:
                 children_dict[parent_branch].append(local_branch)
 
         return children_dict
+    
+    @staticmethod
+    def push_branch(branch: str) -> None:
+        if GitHelpers.does_remote_branch_exist(branch):
+            GitHelpers.push_with_lease(branch)
+            print(f"Pushed updates to {branch}")
+        else:
+            GitHelpers.push_and_set_upstream(branch)
+            print(f"Pushed new branch {branch} to remote")
 
     @staticmethod
     def recursive_rebase(root_branch: Optional[str] = None) -> None:
@@ -147,7 +156,7 @@ class InternalHelpers:
         else:  # propagate
             root_branch = current_branch
 
-        def rebase_action(branch: str, children: List[str]) -> None:
+        def rebase(branch: str, children: List[str]) -> None:
             for child_branch in children:
                 creation_commit = InternalHelpers.get_creation_commit(branch_name=child_branch)
                 if not creation_commit:
@@ -159,7 +168,7 @@ class InternalHelpers:
                     print(f"Updating parent of {current_branch} to {root_branch}")
                     GitHelpers.update_commit_parent(InternalHelpers.get_creation_commit(current_branch), root_branch)
 
-        TreeHelpers.bfs_traversal(root_branch, children_dict, rebase_action)
+        TreeHelpers.bfs_traversal(root_branch, children_dict, rebase)
         GitHelpers.checkout_branch(current_branch)
 
 class API:
@@ -176,18 +185,16 @@ class API:
         children_dict, current_branch = InternalHelpers.get_children_dict(), GitHelpers.get_current_branch()
 
         def push_branch(branch: str, _: List[str]) -> None:
-            if GitHelpers.does_remote_branch_exist(branch):
-                GitHelpers.push_with_lease(branch)
-                print(f"Pushed updates to {branch}")
-            else:
-                GitHelpers.push_and_set_upstream(branch)
-                print(f"Pushed new branch {branch} to remote")
+            InternalHelpers.push_branch(branch)
 
         TreeHelpers.bfs_traversal(current_branch, children_dict, push_branch)
 
     @staticmethod
     def create_pr(title: Optional[str] = None) -> None:
         current_branch, trunk_name = GitHelpers.get_current_branch(), GitHelpers.get_trunk_name()
+
+        InternalHelpers.push_branch(current_branch)
+
         parent_branch = InternalHelpers.get_parent_branch(current_branch)
 
         base_branch = trunk_name
