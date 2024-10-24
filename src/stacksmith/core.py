@@ -160,8 +160,7 @@ class InternalHelpers:
             for child_branch in children:
                 creation_commit = InternalHelpers.get_creation_commit(branch_name=child_branch)
                 if not creation_commit:
-                    print(f"Creation commit not found for branch {child_branch}")
-                    return
+                    raise Exception(f"Creation commit not found for branch {child_branch}")
                 GitHelpers.rebase_onto(branch, creation_commit, child_branch)
                 print(f"Rebased {child_branch} onto {branch}")
                 if child_branch == current_branch and root_branch != InternalHelpers.get_parent_branch(child_branch):

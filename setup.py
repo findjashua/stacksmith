@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="stacksmith",
-    version="0.0.38",
+    version="0.0.39",
     author="Jashua Gupta",
     author_email="findjashua@gmail.com",
     description="Enhanced Git workflow",
