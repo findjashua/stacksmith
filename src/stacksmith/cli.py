@@ -1,15 +1,23 @@
 import sys
 from .core import API, SubprocessHelpers
 
+
 def print_usage():
     print("Usage: ss <command> [<args>]")
     print("\nCustom commands:")
     print("  hoist <branch_name>                  Hoist the stack onto a new branch")
     print("  create <branch_name>                  Push a new branch onto the stack")
-    print("  pr [title]                            Create a pull request with automatic parent branch detection")
-    print("  propagate                             Propagate commits from the current branch to all descendant branches")
-    print("  publish                               Push all branches in the stack to remote")
+    print(
+        "  pr [title]                            Create a pull request with automatic parent branch detection"
+    )
+    print(
+        "  propagate                             Propagate commits from the current branch to all descendant branches"
+    )
+    print(
+        "  publish                               Push all branches in the stack to remote"
+    )
     print("\nAll other commands are passed through to git.")
+
 
 def main():
     if len(sys.argv) < 2:
@@ -40,6 +48,7 @@ def main():
     else:
         # Passthrough to Git for unknown commands
         SubprocessHelpers.run_git_command([command] + args)
+
 
 if __name__ == "__main__":
     main()

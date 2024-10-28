@@ -1,7 +1,14 @@
 from .core import API
 from .cli import main
 
-__all__ = ['create_branch', 'hoist_stack', 'create_pr', 'propagate_changes', 'publish_stack', 'main']
+__all__ = [
+    "create_branch",
+    "hoist_stack",
+    "create_pr",
+    "propagate_changes",
+    "publish_stack",
+    "main",
+]
 
 # Expose API methods at the package level
 create_branch = API.create_branch
