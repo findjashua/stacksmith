@@ -123,18 +123,12 @@ class InternalHelpers:
 
     @staticmethod
     def get_children_dict() -> Dict[str, List[str]]:
-        trunk = GitHelpers.get_trunk_name()
         local_branches = GitHelpers.get_local_branches()
-        if trunk in local_branches:
-            local_branches.remove(trunk)
-
-        parent_dict: Dict[str, str] = {}
         children_dict: Dict[str, List[str]] = {branch: [] for branch in local_branches}
 
         for local_branch in local_branches:
             parent_branch = InternalHelpers.get_parent_branch(local_branch)
             if parent_branch and parent_branch in local_branches:
-                parent_dict[local_branch] = parent_branch
                 children_dict[parent_branch].append(local_branch)
 
         return children_dict
