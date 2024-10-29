@@ -248,7 +248,7 @@ class API:
                 parent_pr_url = json.loads(parent_pr_output)["url"]
                 description = f"Depends on: {parent_pr_url}"
             except subprocess.CalledProcessError:
-                return print(f"Please create PR for {base_branch}")
+                return print(f"Please create pull request for branch: {base_branch}")
 
         title = title or f"Pull request for {current_branch}"
         output = GitHelpers.create_pull_request(title, description, base_branch)
