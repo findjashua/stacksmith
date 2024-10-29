@@ -3,7 +3,7 @@ import re
 import subprocess
 import sys
 from collections import deque
-from typing import Callable, List, Dict, Optional, Set
+from typing import Callable, Optional
 
 
 class SubprocessHelpers:
@@ -20,7 +20,7 @@ class SubprocessHelpers:
         return stdout.decode().strip()
 
     @staticmethod
-    def run_git_command(args: List[str]) -> str:
+    def run_git_command(args: list[str]) -> str:
         try:
             subprocess.run(["git"] + args, check=True, text=True)
         except subprocess.CalledProcessError as e:
@@ -76,7 +76,7 @@ class GitHelpers:
         return SubprocessHelpers.run_command("git rev-parse --abbrev-ref HEAD")
 
     @staticmethod
-    def get_local_branches() -> Set[str]:
+    def get_local_branches() -> set[str]:
         return set(
             SubprocessHelpers.run_command(
                 'git branch --format="%(refname:short)"'
@@ -123,8 +123,8 @@ class TreeHelpers:
     @staticmethod
     def bfs_traversal(
         root: str,
-        children_dict: Dict[str, List[str]],
-        process_node_and_children: Callable[[str, List[str]], None],
+        children_dict: dict[str, list[str]],
+        process_node_and_children: Callable[[str, list[str]], None],
     ) -> None:
         queue = deque([root])
         while queue:
@@ -156,9 +156,9 @@ class InternalHelpers:
         return parent_match.group(1) if parent_match else None
 
     @staticmethod
-    def get_children_dict() -> Dict[str, List[str]]:
+    def get_children_dict() -> dict[str, list[str]]:
         local_branches = GitHelpers.get_local_branches()
-        children_dict: Dict[str, List[str]] = {branch: [] for branch in local_branches}
+        children_dict: dict[str, list[str]] = {branch: [] for branch in local_branches}
 
         for local_branch in local_branches:
             parent_branch = InternalHelpers.get_parent_branch(local_branch)
@@ -188,7 +188,7 @@ class InternalHelpers:
         else:  # propagate
             root_branch = current_branch
 
-        def rebase(branch: str, children: List[str]) -> None:
+        def rebase(branch: str, children: list[str]) -> None:
             for child_branch in children:
                 creation_commit = InternalHelpers.get_creation_commit(
                     branch_name=child_branch
@@ -223,7 +223,7 @@ class API:
 
     @staticmethod
     def publish_stack() -> None:
-        def push_branch(branch: str, _: List[str]) -> None:
+        def push_branch(branch: str, _: list[str]) -> None:
             InternalHelpers.push_branch(branch)
 
         TreeHelpers.bfs_traversal(
