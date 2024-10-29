@@ -234,31 +234,23 @@ class API:
 
     @staticmethod
     def create_pr(title: Optional[str] = None) -> None:
-        current_branch, trunk_name = (
-            GitHelpers.get_current_branch(),
-            GitHelpers.get_trunk_name(),
-        )
+        current_branch = GitHelpers.get_current_branch()
 
         InternalHelpers.push_branch(current_branch)
 
         parent_branch = InternalHelpers.get_parent_branch(current_branch)
+        base_branch = parent_branch.removeprefix("origin/") if parent_branch else None
+        description = ""
 
-        base_branch = trunk_name
-        if parent_branch and parent_branch != f"origin/{trunk_name}":
-            base_branch = parent_branch
+        if base_branch and base_branch != GitHelpers.get_trunk_name():
+            try:
+                parent_pr_output = GitHelpers.get_pr_output(base_branch)
+                parent_pr_url = json.loads(parent_pr_output)["url"]
+                description = f"Depends on: {parent_pr_url}"
+            except subprocess.CalledProcessError:
+                return print(f"Please create PR for {base_branch}")
 
-        if title is None:
-            title = f"Pull request for {current_branch}"
-
-        parent_pr_url = None
-        if base_branch != trunk_name:
-            parent_pr_output = GitHelpers.get_pr_output(base_branch)
-            parent_pr_url = json.loads(parent_pr_output)["url"]
-
-        description = f"Depends on: {parent_pr_url}" if parent_pr_url else ""
-        base_branch = (
-            base_branch if GitHelpers.does_remote_branch_exist(base_branch) else None
-        )
+        title = title or f"Pull request for {current_branch}"
         output = GitHelpers.create_pull_request(title, description, base_branch)
         print(f"Successfully created draft PR: {output}")
 

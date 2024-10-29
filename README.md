@@ -96,7 +96,7 @@ All StackSmith operations are designed to be idempotent. This means that in case
 
 ## Requirements
 
-- Python 3.6+
+- Python 3.9+
 - Git
 - GitHub CLI (for pull requests)
 

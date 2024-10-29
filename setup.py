@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="stacksmith",
-    version="0.0.44",
+    version="0.0.46",
     author="Jashua Gupta",
     author_email="findjashua@gmail.com",
     description="Enhanced Git workflow",
@@ -19,13 +19,9 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     install_requires=[
         # Add any dependencies here
     ],
