@@ -15,7 +15,7 @@ class SubprocessHelpers:
         stdout, stderr = process.communicate()
         if process.returncode != 0:
             err = stderr.decode().strip()
-            print(err)
+            print("\n".join(["ERROR:", err]))
             raise subprocess.CalledProcessError(process.returncode, command, err)
         return stdout.decode().strip()
 
