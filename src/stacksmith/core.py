@@ -263,3 +263,14 @@ class API:
     def propagate_changes() -> None:
         InternalHelpers.recursive_rebase()
         print("Propagated changes successfully")
+
+    @staticmethod
+    def print_parent() -> None:
+        print(InternalHelpers.get_parent_branch(GitHelpers.get_current_branch()) or "")
+
+    @staticmethod
+    def print_children() -> None:
+        children_branches = InternalHelpers.get_children_dict().get(
+            GitHelpers.get_current_branch(), []
+        )
+        print("\n".join(children_branches))

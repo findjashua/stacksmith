@@ -16,6 +16,10 @@ def print_usage():
     print(
         "  publish                               Push all branches in the stack to remote"
     )
+    print("  parent                                Print the name of the parent branch")
+    print(
+        "  children                              Print the names of the children branches"
+    )
     print("\nAll other commands are passed through to git.")
 
 
@@ -43,6 +47,10 @@ def main():
         API.propagate_changes()
     elif command == "publish":
         API.publish_stack()
+    elif command == "parent":
+        API.print_parent()
+    elif command == "children":
+        API.print_children()
     elif command in ["--help", "-h", "help"]:
         print_usage()
     else:

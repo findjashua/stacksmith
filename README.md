@@ -10,7 +10,7 @@ Install StackSmith:
 pip install stacksmith
 ```
 
-## Five powerful commands
+## Five core commands
 
 StackSmith uses `ss` as its base command:
 
@@ -48,6 +48,17 @@ StackSmith uses `ss` as its base command:
    ```
    ss checkout <new_base> 
    ss fetch origin && ss hoist origin/<trunk_name>
+   ```
+
+## Bonus commands
+1. **Print name of parent branch**
+   ```
+   ss parent
+   ```
+
+2. **Print names of children branches**
+   ```
+   ss children
    ```
 
 ## Git command passthrough
