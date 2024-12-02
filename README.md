@@ -51,15 +51,16 @@ StackSmith uses `ss` as its base command:
    ```
 
 ## Bonus commands
-1. **Print name of parent branch**
+1. **Checkout the parent branch**
    ```
    ss parent
    ```
 
-2. **Print names of children branches**
+2. **Checkout the child branch**
    ```
-   ss children
+   ss child
    ```
+   If the branch has multiple children, just print their names.
 
 ## Git command passthrough
 

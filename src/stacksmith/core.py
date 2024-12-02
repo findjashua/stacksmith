@@ -265,12 +265,23 @@ class API:
         print("Propagated changes successfully")
 
     @staticmethod
-    def print_parent() -> None:
-        print(InternalHelpers.get_parent_branch(GitHelpers.get_current_branch()) or "")
+    def checkout_parent() -> None:
+        parent_branch_opt = InternalHelpers.get_parent_branch(
+            GitHelpers.get_current_branch()
+        )
+        if parent_branch_opt:
+            GitHelpers.checkout_branch(parent_branch_opt)
+        else:
+            print("Parent branch not found")
 
     @staticmethod
-    def print_children() -> None:
+    def checkout_child() -> None:
         children_branches = InternalHelpers.get_children_dict().get(
             GitHelpers.get_current_branch(), []
         )
-        print("\n".join(children_branches))
+        if not children_branches:
+            print("Child branch not found")
+        elif len(children_branches) == 1:
+            GitHelpers.checkout_branch(children_branches[0])
+        else:
+            print("\n".join(children_branches))
