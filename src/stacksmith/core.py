@@ -67,8 +67,8 @@ class GitHelpers:
 
     @staticmethod
     def get_commit_with_message(branch: str, message: str, max_count: int = 100) -> str:
-        return SubprocessHelpers.run_command(
-            f'git log {branch} --format=%H --max-count=1 --grep="{message}" -n {max_count}'
+        return  SubprocessHelpers.run_command(
+            f'git log {branch} --format=%H --grep="{message}" -n {max_count} | head -1'
         )
 
     @staticmethod
