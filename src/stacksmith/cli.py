@@ -1,5 +1,6 @@
 import sys
-from .core import API, SubprocessHelpers
+from .api import API
+from .helpers import SubprocessHelpers
 
 
 def print_usage():

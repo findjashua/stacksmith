@@ -1,4 +1,4 @@
-from .core import API
+from .api import API
 from .cli import main
 
 __all__ = [
