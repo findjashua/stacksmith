@@ -19,7 +19,7 @@ class SubprocessHelpers:
         return stdout.decode().strip()
 
     @staticmethod
-    def run_git_command(args: list[str]) -> str:
+    def run_git_command(args: list[str]) -> None:
         try:
             subprocess.run(["git"] + args, check=True, text=True)
         except subprocess.CalledProcessError as e:
@@ -203,9 +203,10 @@ class InternalHelpers:
                     and root_branch != InternalHelpers.get_parent_branch(child_branch)
                 ):
                     print(f"Updating parent of {current_branch} to {root_branch}")
-                    GitHelpers.update_commit_parent(
-                        InternalHelpers.get_creation_commit(current_branch), root_branch
-                    )
+                    creation_commit = InternalHelpers.get_creation_commit(current_branch)
+                    if not creation_commit:
+                        raise Exception(f"Creation commit not found for branch {current_branch}")
+                    GitHelpers.update_commit_parent(creation_commit, root_branch)
 
         TreeHelpers.bfs_traversal(root_branch, children_dict, rebase)
         GitHelpers.checkout_branch(current_branch)
